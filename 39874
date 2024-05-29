@@ -1,0 +1,48 @@
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+// GUI class for hotel management system
+public class HotelManagementGUI extends JFrame {
+
+    private final JTextArea outputTextArea;
+    private final JButton bookButton;
+    private final JButton checkAvailabilityButton;
+    private HotelOperations hotelOperations;
+
+    public HotelManagementGUI() {
+        setTitle("Hotel Management System");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        outputTextArea = new JTextArea(10, 30);
+        outputTextArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(outputTextArea);
+        bookButton = new JButton("Book Room");
+        checkAvailabilityButton = new JButton("Check Availability");
+
+        hotelOperations = new HotelManagement(outputTextArea);
+
+        add(scrollPane, BorderLayout.CENTER);
+        add(createButtonPanel(), BorderLayout.SOUTH);
+
+        bookButton.addActionListener((ActionEvent e) -> hotelOperations.bookRoom());
+        checkAvailabilityButton.addActionListener((ActionEvent e) -> hotelOperations.checkAvailability());
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private JPanel createButtonPanel() {
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(bookButton);
+        buttonPanel.add(checkAvailabilityButton);
+        return buttonPanel;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(HotelManagementGUI::new);
+    }
+}
